@@ -22,9 +22,9 @@ class TaxiEnv(gym.Env):
         Type: Box(4)
         Num     Observation               Min                     Max
         0       pickup dist               0                       inf
-        1       trip count                0                       inf
+        1       trip distance             0                       inf
         2       time                      0                       24
-        3       weekly reward target      0                       inf    
+        3       trips till weekly reward  0                       inf
 
     Reward:
         reward calculated through the trip  - static time loss
@@ -45,7 +45,7 @@ class TaxiEnv(gym.Env):
     def __init__(self, state_dict=None):
 
         #at least one of the low values HAS to be negative - why?
-        low = np.array([-np.finfo(np.float32).max,0.0,0.0,0.0], dtype=np.float32)
+        low = np.array([-np.finfo(np.float32).max,0.0,0.0,-1.0], dtype=np.float32)
         self.theta_threshold_radians = 12 * 2 * math.pi / 360
         self.x_threshold = 2.4
         high = np.array([np.finfo(np.float32).max, np.finfo(np.float32).max ,24.0, np.finfo(np.float32).max], dtype=np.float32)
@@ -77,9 +77,9 @@ class TaxiEnv(gym.Env):
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
 
-        pickup_dist, trip_count, time, weekly_target = self.steps[self.step_count]["pickup_dist"], self.steps[self.step_count]["trip_count"], self.steps[self.step_count]["time"], self.steps[self.step_count]["weekly_target"]
+        pickup_dist, trip_dist, time, weekly_target = self.steps[self.step_count]["pickup_dist"], self.steps[self.step_count]["trip_count"], self.steps[self.step_count]["time"], self.steps[self.step_count]["weekly_target"]
 
-        self.state = pickup_dist, trip_count, time, weekly_target
+        self.state = pickup_dist, trip_dist, time, weekly_target
         self.step_count += 1
 
         reward = self.steps["reward"]
