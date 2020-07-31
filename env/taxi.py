@@ -25,9 +25,9 @@ class TaxiEnv(gym.Env):
         1       trip distance             0                       inf
         2       time                      0                       24
         3       trips till weekly reward  0                       inf
-        4 	current location          0			  100
-	5 	trip destination	  0		 	  100
-	6	idle time till now        0			  inf
+        4 	    current location          0	            		  100
+	    5   	trip destination	      0	            	 	  100
+	    6	    idle time till now        0			              inf
      
     Reward:
         reward calculated through the trip  - static time loss
