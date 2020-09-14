@@ -25,7 +25,7 @@ class TaxiEnv(gym.Env):
         1       trip distance             0                       inf
         2       time                      0                       24
         3       trips till weekly reward  0                       inf
-
+        4.      trip destination          0                       100
     Reward:
         reward calculated through the trip  - static time loss
 
@@ -45,10 +45,8 @@ class TaxiEnv(gym.Env):
     def __init__(self, state_dict=None):
 
         #at least one of the low values HAS to be negative - why?
-        low = np.array([-np.finfo(np.float32).max,0.0,0.0,-1.0], dtype=np.float32)
-        self.theta_threshold_radians = 12 * 2 * math.pi / 360
-        self.x_threshold = 2.4
-        high = np.array([np.finfo(np.float32).max, np.finfo(np.float32).max ,24.0, np.finfo(np.float32).max], dtype=np.float32)
+        low = np.array([-np.finfo(np.float32).max,0.0,0.0,-1.0, 0], dtype=np.float32)
+        high = np.array([np.finfo(np.float32).max, np.finfo(np.float32).max ,24.0, np.finfo(np.float32).max, 100], dtype=np.float32)
    
 
         self.action_space = spaces.Discrete(2)
@@ -120,7 +118,7 @@ class TaxiEnv(gym.Env):
 
     def reset(self):
         
-        self.state = np.array([0,0,0,20], dtype=np.float32)
+        self.state = np.array([0,0,0,20, 0], dtype=np.float32)
         self._episode_ended = False
 
         """
