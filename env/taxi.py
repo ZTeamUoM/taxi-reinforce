@@ -21,12 +21,11 @@ class TaxiEnv(gym.Env):
     Observation:
         Type: Box(4)
         Num     Observation               Min                     Max
-        0       pickup dist               0                       inf
         1       trip distance             0                       inf
         2       time                      0                       24
         3.      trip destination_lat      0                       1
         4.      trip destination_long     0                       1
-        3       trips till weekly reward  0                       inf
+        5.       trips till weekly reward  0                      inf #temporarily removed for imitation learning
     Reward:
         reward calculated through the trip  - static time loss
 
@@ -46,9 +45,13 @@ class TaxiEnv(gym.Env):
     def __init__(self, state_dict=None):
 
         #at least one of the low values HAS to be negative - why?
-        low = np.array([-np.finfo(np.float32).max,0.0,0.0, 0.0, 0.0, -1.0], dtype=np.float32)
-        high = np.array([np.finfo(np.float32).max, np.finfo(np.float32).max ,24.0,  1.0, 1.0, np.finfo(np.float32).max], dtype=np.float32)
-   
+        #uncomment after adding trips till weekyl reward for imitation learning
+        #low = np.array([-np.finfo(np.float32).max, 0.0, 0.0, 0.0, -1.0], dtype=np.float32)
+        #high = np.array([np.finfo(np.float32).max ,24.0,  1.0, 1.0, np.finfo(np.float32).max], dtype=np.float32)
+        
+        low = np.array([-np.finfo(np.float32).max, 0.0, 0.0, -1.0], dtype=np.float32)
+        high = np.array([np.finfo(np.float32).max ,24.0,  1.0, 1.0], dtype=np.float32)
+
 
         self.action_space = spaces.Discrete(2)
         self.observation_space = spaces.Box(low, high, dtype=np.float32)
@@ -119,7 +122,7 @@ class TaxiEnv(gym.Env):
 
     def reset(self):
         
-        self.state = np.array([0,0,0,0,0,20], dtype=np.float32)
+        self.state = np.array([0,0,0,20], dtype=np.float32)
         self._episode_ended = False
 
         """
