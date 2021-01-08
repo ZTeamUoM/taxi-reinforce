@@ -46,11 +46,11 @@ class TaxiEnv(gym.Env):
 
         #at least one of the low values HAS to be negative - why?
         #uncomment after adding trips till weekyl reward for imitation learning
-        #low = np.array([-np.finfo(np.float32).max, 0.0, 0.0, 0.0, -1.0], dtype=np.float32)
-        #high = np.array([np.finfo(np.float32).max ,24.0,  1.0, 1.0, np.finfo(np.float32).max], dtype=np.float32)
+        low = np.array([-np.finfo(np.float32).max, 0.0, 0.0, 0.0, -1.0], dtype=np.float32)
+        high = np.array([np.finfo(np.float32).max ,24.0,  1.0, 1.0, np.finfo(np.float32).max], dtype=np.float32)
         
-        low = np.array([-np.finfo(np.float32).max, 0.0, 0.0, -1.0], dtype=np.float32)
-        high = np.array([np.finfo(np.float32).max ,24.0,  1.0, 1.0], dtype=np.float32)
+        #low = np.array([-np.finfo(np.float32).max, 0.0, 0.0, -1.0], dtype=np.float32)
+        #high = np.array([np.finfo(np.float32).max ,24.0,  1.0, 1.0], dtype=np.float32)
 
 
         self.action_space = spaces.Discrete(2)
@@ -122,7 +122,7 @@ class TaxiEnv(gym.Env):
 
     def reset(self):
         
-        self.state = np.array([0,0,0,20], dtype=np.float32)
+        self.state = np.array([0,0,0,0,20], dtype=np.float32)
         self._episode_ended = False
 
         """
